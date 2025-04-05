@@ -10,7 +10,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('animals.store') }}" method="POST">
+                        <form action="{{ route('animals.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
                             <!-- Имя животного -->
@@ -45,6 +45,12 @@
                                         <option value="{{ $cage->id }}">{{ $cage->name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+
+                            <!-- Загрузка изображения животного -->
+                            <div class="form-group fs-4 mt-4">
+                                <label for="image">Фотография животного:</label>
+                                <input type="file" name="image" id="image" class="form-control" accept="image/*">
                             </div>
 
                             <!-- Кнопка отправки формы -->

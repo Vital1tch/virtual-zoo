@@ -24,11 +24,19 @@ class AnimalController extends Controller
             'age' => 'required|integer|min:0',
             'description' => 'required|string|max:1000',
             'cage_id' => 'required|exists:cages,id', // Проверка существования клетки
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048', // Валидация для изображения
         ]);
+
+        // Обработка и сохранение изображения
+        if ($request->hasFile('image')) {
+            // Сохраняем изображение в папку 'public/animals' с уникальным именем
+            $imagePath = $request->file('image')->store('public/animals');
+            $validatedData['image'] = $imagePath; // Сохраняем путь к изображению
+        }
 
         // Создание животного
         Animal::create($validatedData);
 
-        return redirect('/');
+        return redirect()->route('home');
     }
 }

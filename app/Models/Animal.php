@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Animal extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'species', 'age', 'description', 'cage_id'];
+    protected $fillable = ['name', 'species', 'age', 'description', 'cage_id', 'image'];
 
     // Связь с клеткой
     public function cage()
