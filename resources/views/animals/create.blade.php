@@ -1,43 +1,61 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Добавить животное</title>
-</head>
-<body>
-<h1>Создать животное</h1>
+@extends('layouts.app')
 
-<!-- Форма для добавления животного -->
-<form action="{{ route('animals.store') }}" method="POST">
-    @csrf
+@section('title', 'Добавить животное')
 
-    <label for="name">Имя животного:</label>
-    <input type="text" name="name" id="name" required><br>
+@section('content')
+    <div class="container">
+        <h1 class="my-4 text-center">Создание животного</h1>
 
-    <label for="species">Вид:</label>
-    <input type="text" name="species" id="species" required><br>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{{ route('animals.store') }}" method="POST">
+                            @csrf
 
-    <label for="age">Возраст:</label>
-    <input type="number" name="age" id="age" required min="0"><br>
+                            <!-- Имя животного -->
+                            <div class="form-group fs-4">
+                                <label for="name">Имя животного:</label>
+                                <input type="text" name="name" id="name" class="form-control" required>
+                            </div>
 
-    <label for="description">Описание:</label>
-    <textarea name="description" id="description" required></textarea><br>
+                            <!-- Вид животного -->
+                            <div class="form-group fs-4 mt-4">
+                                <label for="species">Вид:</label>
+                                <input type="text" name="species" id="species" class="form-control" required>
+                            </div>
 
-    <label for="cage_id">Выберите клетку:</label>
-    <select name="cage_id" id="cage_id" required>
-        @foreach($cages as $cage)
-            <option value="{{ $cage->id }}">{{ $cage->name }}</option>
-        @endforeach
-    </select><br>
+                            <!-- Возраст животного -->
+                            <div class="form-group fs-4 mt-4">
+                                <label for="age">Возраст:</label>
+                                <input type="number" name="age" id="age" class="form-control" required min="0">
+                            </div>
 
-    <button type="submit">Создать животное</button>
-</form>
+                            <!-- Описание животного -->
+                            <div class="form-group fs-4 mt-4">
+                                <label for="description">Описание:</label>
+                                <textarea name="description" id="description" class="form-control" required></textarea>
+                            </div>
 
-<br>
-<a href="{{ route('animals.index') }}">Назад к животным</a>
-</body>
-</html>
+                            <!-- Клетка для животного -->
+                            <div class="form-group fs-4 mt-4">
+                                <label for="cage_id">Выберите клетку:</label>
+                                <select name="cage_id" id="cage_id" class="form-control" required>
+                                    @foreach($cages as $cage)
+                                        <option value="{{ $cage->id }}">{{ $cage->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
+                            <!-- Кнопка отправки формы -->
+                            <button type="submit" class="btn btn-success btn-block mt-5">Создать животное</button>
+                        </form>
+                    </div>
+                </div>
 
-
+                <br>
+                <a href="{{ route('home') }}" class="btn btn-primary btn-block">Назад к главной странице</a>
+            </div>
+        </div>
+    </div>
+@endsection
