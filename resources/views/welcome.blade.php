@@ -41,30 +41,41 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <!-- Список животных -->
-                                @foreach($cage->animals as $animal)
+                                <!-- Проверка на наличие животных в клетке -->
+                                @forelse($cage->animals as $animal)
                                     <div class="card mb-3">
                                         <div class="card-body">
-                                            <h5 class="card-title">{{ $animal->name }}</h5>
+                                            <h5 class="card-title fs-4 text">{{ $animal->name }}</h5>
                                             <p class="card-text"><strong>Вид:</strong> {{ $animal->species }}</p>
                                             <p class="card-text"><strong>Возраст:</strong> {{ $animal->age }} лет</p>
                                             <p class="card-text"><strong>Описание:</strong> {{ $animal->description }}</p>
+                                            <p class="card-text"><strong>Фотография:</strong></p>
 
                                             <!-- Вывод изображения животного -->
                                             @if($animal->image)
                                                 <div class="animal-image">
-                                                    <img src="{{ asset('storage/' . $animal->image) }}" alt="Изображение {{ $animal->name }}" class="img-fluid" style="max-height: 200px; object-fit: cover;">
+                                                    <img src="{{ asset('storage/' . $animal->image) }}" alt="Изображение {{ $animal->name }}" class="img-fluid mb-4" style="max-height: 200px; object-fit: cover;">
                                                 </div>
                                             @endif
+
                                             <!-- Кнопка для удаления животного -->
-                                            <form action="{{ route('animals.destroy', $animal->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Вы уверены, что хотите удалить это животное?');">
+                                            <form action="{{ route('animals.destroy', $animal->id) }}" method="POST" onsubmit="return confirm('Вы уверены, что хотите удалить это животное?');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Удалить</button>
+                                                <button type="submit" class="btn btn-danger border border-2 border-dark text-black">Удалить</button>
                                             </form>
+
+                                            <!-- Кнопка для просмотра подробной информации о животном -->
+                                            <a href="{{ route('animals.show', $animal->id) }}" class="btn btn-info border border-2 border-dark text-black mt-2">Просмотреть</a>
+
+                                            <!-- Кнопка для редактирования животного -->
+                                            <a href="{{ route('animals.edit', $animal->id) }}" class="btn btn-warning bg-warning text-black mt-2">Редактировать</a>
                                         </div>
                                     </div>
-                                @endforeach
+                                @empty
+                                    <!-- Сообщение, если животных нет -->
+                                    <p class="text-muted">В этой клетке нет животных.</p>
+                                @endforelse
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary border-black p-2 border-opacity-75" data-dismiss="modal">Закрыть</button>
@@ -105,10 +116,18 @@
 
             // Устанавливаем цвет в зависимости от типа уведомления
             if (type == 'success') {
-                notification.style.backgroundColor = '#28a745';  // Зеленый для успеха
+                notification.style.backgroundColor = '#37d35b';  // Зеленый для успеха и редактирования
             } else if (type == 'error') {
                 notification.style.backgroundColor = '#dc3545';  // Красный для удаления
             }
+
+            // Уведомление слева сверху
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.left = '10px';
+            notification.style.width = '260px';
+            notification.style.borderRadius = '5px';
+            notification.style.zIndex = '1050';
 
             // Показать уведомление
             notification.style.display = 'block';

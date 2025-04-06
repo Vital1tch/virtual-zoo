@@ -77,4 +77,64 @@ class AnimalController extends Controller
             ->with('type', 'error');
     }
 
+    //Функция для просмотра животного в новом окне
+    public function show($id)
+    {
+        // Находим животное по ID
+        $animal = Animal::findOrFail($id);
+
+        // Отображаем информацию о животном
+        return view('animals.show', compact('animal'));
+    }
+
+    //Функция для редактирования информации о животном
+    public function edit($id)
+    {
+        // Находим животное по ID
+        $animal = Animal::findOrFail($id);
+
+        // Получаем все клетки для отображения в выпадающем списке
+        $cages = Cage::all();
+
+        // Отображаем форму редактирования
+        return view('animals.edit', compact('animal', 'cages'));
+    }
+
+    //Функция для обновления животного
+    public function update(Request $request, $id)
+    {
+        // Валидация данных
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'species' => 'required|string|max:255',
+            'age' => 'required|integer|min:0',
+            'description' => 'required|string|max:1000',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048', // Валидация для изображения
+        ]);
+
+        // Находим животное по ID
+        $animal = Animal::findOrFail($id);
+
+        // Обработка и сохранение нового изображения, если оно есть
+        if ($request->hasFile('image')) {
+            // Удаляем старое изображение
+            if ($animal->image) {
+                Storage::delete('public/animals/' . $animal->image);
+            }
+
+            // Сохраняем новое изображение
+            $file = $request->file('image');
+            $fileName = $file->hashName();
+            $imagePath = $file->storeAs('animals', $fileName, ['disk' => 'public']);
+            $validatedData['image'] = $imagePath; // Сохраняем путь к новому изображению
+        }
+
+        // Обновляем данные животного
+        $animal->update($validatedData);
+
+        // Перенаправляем на главную страницу с сообщением об успехе
+        return redirect()->route('home')->with('success', 'Информация о животном успешно обновлена!')
+            ->with('type', 'success');
+    }
+
 }
