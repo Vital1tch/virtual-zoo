@@ -13,7 +13,7 @@ Virtual Zoo — это веб-приложение, созданное с исп
 
 ## Превью сайта
 ![Preview of Virtual Zoo](assets/images/site_preview.png)
-
+![Preview of Virtual Zoo](assets/images/modal_window.png)
 ## Установка
 1. **Клонируйте репозиторий:**
 ```bash
@@ -27,11 +27,6 @@ cd virtual-zoo
 ```bash
 composer install
 ```
-
-4. **Генерация ключа приложения**
-```bash
-php artisan key:generate
-```
 4. **Настройте файл окружения .env. Например:**
 ```
  DB_CONNECTION=mysql
@@ -41,15 +36,19 @@ php artisan key:generate
  DB_USERNAME= имя пользователя БД
  DB_PASSWORD= пароль пользователя
 ```
-5. **Выполните команду для миграций в БД**
+5. **Генерация ключа приложения**
+```bash
+php artisan key:generate
+````
+6. **Выполните команду для миграций в БД**
 ```bash
 php artisan migrate
 ```
-6. **Выполните команду для создания storage link**
+7. **Выполните команду для создания storage link - хранение фотографий животных**
 ```bash
 php artisan storage:link
 ```
-7. **Запустите сервер:**
+8. **Запустите сервер:**
 ```bash
 php artisan serve
 ```
