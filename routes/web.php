@@ -10,3 +10,5 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::resource('cages', CageController::class);
 
 Route::resource('animals', AnimalController::class);
+
+Route::delete('/animals/{id}', [AnimalController::class, 'destroy'])->name('animals.destroy');

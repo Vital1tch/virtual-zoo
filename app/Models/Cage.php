@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cage extends Model
 {
     use HasFactory;
+
     protected $fillable = ['name', 'capacity'];
 
     // Связь с животными
@@ -15,5 +16,4 @@ class Cage extends Model
     {
         return $this->hasMany(Animal::class);
     }
-
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Animal;
 use App\Models\Cage;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {

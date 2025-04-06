@@ -47,6 +47,13 @@
                                 </select>
                             </div>
 
+                            <!-- Сообщение об ошибке, если клетка полная -->
+                            @if($errors->has('cage_full'))
+                                <div class="alert alert-danger mt-3">
+                                    {{ $errors->first('cage_full') }}
+                                </div>
+                            @endif
+
                             <!-- Загрузка изображения животного -->
                             <div class="form-group fs-4 mt-4">
                                 <label for="image">Фотография животного:</label>

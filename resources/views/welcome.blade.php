@@ -49,6 +49,19 @@
                                             <p class="card-text"><strong>Вид:</strong> {{ $animal->species }}</p>
                                             <p class="card-text"><strong>Возраст:</strong> {{ $animal->age }} лет</p>
                                             <p class="card-text"><strong>Описание:</strong> {{ $animal->description }}</p>
+
+                                            <!-- Вывод изображения животного -->
+                                            @if($animal->image)
+                                                <div class="animal-image">
+                                                    <img src="{{ asset('storage/' . $animal->image) }}" alt="Изображение {{ $animal->name }}" class="img-fluid" style="max-height: 200px; object-fit: cover;">
+                                                </div>
+                                            @endif
+                                            <!-- Кнопка для удаления животного -->
+                                            <form action="{{ route('animals.destroy', $animal->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Вы уверены, что хотите удалить это животное?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Удалить</button>
+                                            </form>
                                         </div>
                                     </div>
                                 @endforeach
@@ -63,11 +76,47 @@
         </div>
     </section>
 
-
+    <!-- Уведомление через JavaScript -->
+    @if(session('success'))
+        <script>
+            window.onload = function() {
+                showNotification("{{ session('success') }}", "{{ session('type') }}");
+            };
+        </script>
+    @endif
 
     <div class="text-center">
         <a href="{{ route('cages.create') }}" class="add-cage">Добавить клетку</a>
         <a href="{{ route('animals.create') }}" class="btn btn-warning">Добавить животное</a>
     </div>
-@endsection
 
+    <!-- Уведомление -->
+    <div id="notification" style="display: none;" class="alert fixed-top left-0 p-3 m-3" role="alert">
+        <span id="notification-message"></span>
+    </div>
+
+    <script>
+        function showNotification(message, type) {
+            var notification = document.getElementById('notification');
+            var notificationMessage = document.getElementById('notification-message');
+
+            // Устанавливаем текст уведомления
+            notificationMessage.textContent = message;
+
+            // Устанавливаем цвет в зависимости от типа уведомления
+            if (type == 'success') {
+                notification.style.backgroundColor = '#28a745';  // Зеленый для успеха
+            } else if (type == 'error') {
+                notification.style.backgroundColor = '#dc3545';  // Красный для удаления
+            }
+
+            // Показать уведомление
+            notification.style.display = 'block';
+
+            // Закрыть уведомление через 5 секунд
+            setTimeout(function() {
+                notification.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+@endsection

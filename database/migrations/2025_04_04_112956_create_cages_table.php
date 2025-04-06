@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('cages', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable(); //Название клетки
-            $table->integer('capacity')->nullable(); //Вместимость клетки
+            $table->string('name')->nullable(); // Название клетки
+            $table->integer('capacity')->nullable(); // Вместимость клетки
             $table->timestamps();
         });
     }
