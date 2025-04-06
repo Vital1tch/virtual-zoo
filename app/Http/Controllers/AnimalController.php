@@ -132,8 +132,34 @@ class AnimalController extends Controller
         // Обновляем данные животного
         $animal->update($validatedData);
 
-        // Перенаправляем на главную страницу с сообщением об успехе
+
         return redirect()->route('home')->with('success', 'Информация о животном успешно обновлена!')
+            ->with('type', 'success');
+    }
+
+    // Метод для переселения животного в другую клетку
+    public function relocate(Request $request, $id)
+    {
+        $animal = Animal::findOrFail($id);
+
+        // Валидация: новая клетка должна существовать
+        $validatedData = $request->validate([
+            'cage_id' => 'required|exists:cages,id', // Проверяем, что новая клетка существует
+        ]);
+
+        // Находим выбранную клетку
+        $newCage = Cage::findOrFail($validatedData['cage_id']);
+
+        // Проверяем, не превышает ли количество животных в новой клетке её вместимость
+        if ($newCage->animals->count() >= $newCage->capacity) {
+            return redirect()->back()->with(['success' => 'Вы не можете переселить это животное в выбранную клетку, в ней не хватает вместимости!'])
+                ->with('type', 'error');
+        }
+
+        // Переселяем животное в новую клетку
+        $animal->update(['cage_id' => $validatedData['cage_id']]);
+
+        return redirect()->route('home')->with('success', 'Животное успешно переселено!')
             ->with('type', 'success');
     }
 

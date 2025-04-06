@@ -80,6 +80,20 @@
 
                                             <!-- Кнопка для редактирования животного -->
                                             <a href="{{ route('animals.edit', $animal->id) }}" class="btn btn-warning bg-warning text-black mt-2">Редактировать</a>
+
+                                            <!-- Кнопка для переселения животного в другую клетку -->
+                                            <form action="{{ route('animals.relocate', $animal->id) }}" method="POST">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="cage_id">Переселить в клетку:</label>
+                                                    <select name="cage_id" id="cage_id" class="form-control" required>
+                                                        @foreach($cages as $cage)
+                                                            <option value="{{ $cage->id }}" {{ $animal->cage_id == $cage->id ? 'selected' : '' }}>{{ $cage->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <button type="submit" class="btn btn-warning mt-2">Переселить</button>
+                                            </form>
                                         </div>
                                     </div>
                                 @empty

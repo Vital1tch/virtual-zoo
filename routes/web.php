@@ -27,3 +27,5 @@ Route::get('/animal/{id}', [AnimalController::class, 'show'])->name('animals.sho
 Route::get('/animal/{id}/edit', [AnimalController::class, 'edit'])->name('animals.edit');
 
 Route::put('/animal/{id}', [AnimalController::class, 'update'])->name('animals.update');
+
+Route::post('animals/{id}/relocate', [AnimalController::class, 'relocate'])->name('animals.relocate');
