@@ -1,9 +1,8 @@
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #E8F5E9;
-    color: #333; /
+    color: #333;
 }
-
 
 header {
     background-color: #4CAF50;
@@ -25,11 +24,6 @@ header .btn {
     color: black;
     padding: 10px 20px;
     font-size: 1.1rem;
-    transition: background-color 0.3s;
-}
-
-header .btn:hover {
-    background-color: #FF9800;
 }
 
 /* Контент страницы */
@@ -85,7 +79,6 @@ section {
     font-size: 1.1rem;
     padding: 10px 20px;
     border-radius: 4px;
-    text-decoration: none;
 }
 
 .btn-warning {
@@ -107,6 +100,13 @@ section {
     text-decoration: none;
     opacity: 0.8;
     border: 2px solid #1a202c;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Добавлен эффект плавного перехода */
+}
+
+.add-cage:hover {
+    background-color: #e0a800;
+    color: white;
+    opacity: 1; /* Убираем прозрачность */
 }
 
 footer {

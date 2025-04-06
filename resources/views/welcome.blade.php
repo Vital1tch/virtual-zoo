@@ -26,6 +26,16 @@
                             <button class="btn btn-success" data-toggle="modal" data-target="#animalsModal{{ $cage->id }}">
                                 Посмотреть животных
                             </button>
+
+                            <!-- Кнопка для редактирования клетки -->
+                            <a href="{{ route('cages.edit', $cage->id) }}" class="btn btn-access bg-amber-800 mt-2">Редактировать клетку</a>
+
+                            <!-- Кнопка для удаления клетки -->
+                            <form action="{{ route('cages.destroy', $cage->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Вы уверены, что хотите удалить эту клетку?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger position-absolute top-0 ms-5 mt-3">Удалить клетку</button>
+                            </form>
                         </div>
                     </div>
                 </div>
